@@ -1,0 +1,142 @@
+﻿@model IEnumerable<Ilaser2.Models.Product>
+
+@if (Session["ad_id"] == null)
+{
+    Response.Redirect("~/Login/Users");
+}
+@if (Convert.ToInt32(Session["User_Type"]) == 2)
+{
+
+
+    <h1> Welcome </h1>
+    <h2> @Session["ad_username"].ToString()</h2>
+    <span><a href="@Url.Action("Logout","Users")"> Logout </a></span>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Product Name")
+            </th>
+            <th>
+                @Html.DisplayName("Discription")
+            </th>
+            <th>
+                @Html.DisplayName("Quantity")
+            </th>
+            <th>
+                @Html.DisplayName("Price")
+            </th>
+            <th>
+                @Html.DisplayName("Product Owner")
+            </th>
+
+            <th>
+                @Html.ActionLink("My Products", "GetProductsByPublisher")
+            </th>
+            <th>
+                @Html.ActionLink("Products Orders", "GetOrdersByWorker")
+            </th>
+            <th>
+                <a href="@Url.Action("Index","Order_Product")"> My Orders </a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index","Comments")"> Customer Comments </a>
+            </th>
+            <th>
+                <a href="@Url.Action("GetRatingsByPublisher", "Products")"> Customers Ratings </a>
+            </th>
+            <th>
+                <a href="@Url.Action("Create", "User_Photo")"> Choose Profile picture </a>
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QTY)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.User_FirstName)
+                    @Html.DisplayFor(modelItem => item.User.User_LastName)
+
+
+                </td>
+                <td>
+
+                    @Html.ActionLink("Details", "Details", new { id = item.Product_Id }) |
+
+
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <h1> Welcome </h1>
+    <h2> @Session["ad_username"].ToString()</h2>
+    <span><a href="@Url.Action("Logout","Users")"> Logout </a></span>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QTY)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.User_FirstName)
+            </th>
+
+            <th>
+                <a href="@Url.Action("Index","Order_Product")"> My Orders </a>
+            </th>
+            <th>
+                <a href="@Url.Action("Create", "User_Photo")"> Choose Profile picture </a>
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QTY)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.User_FirstName)
+                </td>
+                <td>
+
+                    @Html.ActionLink("Details", "Details", new { id = item.Product_Id }) |
+                </td>
+            </tr>
+        }
+
+    </table>
+}

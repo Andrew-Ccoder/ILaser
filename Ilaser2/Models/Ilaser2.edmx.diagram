@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ff06c2e347684eeb9afd006a8c45c3f3" Name="Diagram1" ZoomLevel="75">
+        <EntityTypeShape EntityType="ILaserModel.Order_Product" Width="1.5" PointX="10.5" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILaserModel.Photo" Width="1.5" PointX="7.5" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILaserModel.Product" Width="1.5" PointX="5.25" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILaserModel.Rating" Width="1.5" PointX="7.5" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILaserModel.User" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILaserModel.User_Type" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <AssociationConnector Association="ILaserModel.FK_Order_Product_ProductId" ManuallyRouted="false" />
+        <AssociationConnector Association="ILaserModel.FK_Order_Product_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="ILaserModel.FK_Photo_ProductId" ManuallyRouted="false" />
+        <AssociationConnector Association="ILaserModel.FK_Product_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="ILaserModel.FK_Rating_ProductId" ManuallyRouted="false" />
+        <AssociationConnector Association="ILaserModel.FK_Rating_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="ILaserModel.FK_User_User_Type" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ILaserModel.Comment" Width="1.5" PointX="7.5" PointY="8.75" />
+        <AssociationConnector Association="ILaserModel.FK_Comment_ProductId" />
+        <AssociationConnector Association="ILaserModel.FK_Comment_UserId" />
+        <EntityTypeShape EntityType="ILaserModel.User_Photo" Width="1.5" PointX="5" PointY="6.375" />
+        <AssociationConnector Association="ILaserModel.FK_User_Photo_User_PhotoId" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

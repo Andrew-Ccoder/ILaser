@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Ilaser2.Models.Rating>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+          Rating: 
+        </th>
+        <th>
+           Product Name: 
+        </th>
+        <th>
+           Customer Name
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+           
+                @for (int i = 0; i < item.Rate_Range; i++)
+                {
+                    <span class="glyphicon glyphicon-star style=" style="color:gold"></span>
+                }
+                @for (int i = item.Rate_Range; i < 5; i++)
+                {
+                    <span class="glyphicon glyphicon-star"style="color:black"></span>
+                }
+           
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.User_FirstName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Rate_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Rate_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Rate_Id })
+        </td>
+    </tr>
+}
+
+</table>

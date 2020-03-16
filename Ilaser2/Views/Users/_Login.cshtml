@@ -1,0 +1,143 @@
+﻿@using Microsoft.AspNet.Identity
+@using Ilaser2.Models
+@model Ilaser2.Models.User
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("Logout", "Users", FormMethod.Post, new { id = "Logoff" }))
+    {
+        var db = new ILaserEntities();
+        var UserID = User.Identity.GetUserId<int>();
+        var CurrentUser = db.Users.Where(a => a.User_Id == UserID).SingleOrDefault();
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li class="DropDown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-user"></span>
+                    <strong>Welcome : @CurrentUser.User_FirstName </strong>
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <div class="navbar-user">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <p>
+                                        <span class="glyphicon glyphicon-user img-size"></span>
+                                    </p>
+                                </div>
+
+                                <div class="col-lg-8">
+                                    <p class="text-right">
+
+                                        <strong>
+                                            @CurrentUser.User_FirstName
+                                        </strong>
+                                    </p>
+                                    @if (Convert.ToInt32(Session["User_Type"]) == 2)
+                                    {
+                                        <a href="~/Products/GetProductsByPublisher" class="btn btn-success">
+                                            The Products you Published
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="~/Index/Order_Product" class="btn btn-success btn-block">Your Ordres </a>
+
+
+                                    }
+
+                                    <a href="~/Account/EditProfile" class="btn btn-success btn-block"> Edite Your Profile </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="divider">
+                    <li>
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <p><a href="Javascript:document.getElementById('Logout').submit()" class="btn btn-danger btn-block">Logout </a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+
+            </li>
+        </ul>
+            } }
+        else
+        {
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href = "~/Users/Login" >
+
+                        <i class="glyphicon glyphicon-user"></i>
+                          Login
+                    </a>
+                </li>
+                <li>
+                    <a href = "~/Users/Register" >
+
+                        <i class="glyphicon glyphicon-lock"></i>
+                        Register
+                    </a>
+                </li>
+
+            </ul>
+            }
+
+
+
+@*@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Login</h2>
+<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Users", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <h4> Welcome Back! </h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10 ">
+                        <input type="submit" value="Login" class="btn btn-success" />
+                      
+                         <a href="@Url.Action("Register","Users")" class="btn btn-primary" > Register </a>  
+                    </div>
+                </div>
+                <p style="color:red">
+                    @ViewBag.Error
+                </p>
+            }
+        </section>
+    </div>
+
+</div>*@
+
+
+

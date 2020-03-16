@@ -1,0 +1,87 @@
+﻿body {
+    position:sticky;
+    padding-top:70px;
+    padding-bottom:70px;
+    padding-left:20px;
+    padding-right:20px;
+
+}
+
+
+.myfooter{
+    background-color:darkslategray;
+    font-family:myFont;
+    text-align:justify;
+    //position:relative;
+
+
+}
+.subfooter{
+    background-color:#31708f;
+    color:white;
+    padding:10px;
+    text-align:center;
+}
+.myfooter a{
+    color:ghostwhite;
+}
+.myfooter p{
+    color:ghostwhite;
+}
+.myfooter h3, ul, p {
+    margin-bottom: 20px;
+    font-family: myFont2;
+    list-style-type: none;
+    color:azure;
+    padding-left:70px;
+}
+.con{
+    height:65px;
+    width:50px;
+    position:absolute;
+    margin:auto;
+    left:0px;
+    right:0px;
+
+}
+.fa fa-star{
+
+    font-size:65px;
+}
+ <!--------------------------------------------!>
+.rating-loading {
+    width: 25px;
+    height: 25px;
+    font-size: 0;
+    color: #fff;
+    background: transparent url('../img/loading.gif') top left no-repeat;
+    border: none;
+}
+
+.DropDown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 17px;
+    background-color: #351c1c;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    box-shadow: inset 3px 4px 8px 11px rgba(0,0,0,0.175);
+    background-clip: padding-box;
+}
+
+.a {
+    color: #f1f5f9;
+    text-decoration: solid;
+    border: 200px;
+    word-spacing: inherit;
+    transition: 0.5;
+}

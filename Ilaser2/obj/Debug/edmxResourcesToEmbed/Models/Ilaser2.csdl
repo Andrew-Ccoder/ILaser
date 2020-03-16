@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ILaserModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Order_Product">
+    <Key>
+      <PropertyRef Name="Order_Id" />
+    </Key>
+    <Property Name="Order_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Qty" Type="Int32" Nullable="false" />
+    <Property Name="Total_Price" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="User_Id" Type="Int32" Nullable="false" />
+    <Property Name="Product_Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Order_Product_ProductId" FromRole="Order_Product" ToRole="Product" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Order_Product_UserId" FromRole="Order_Product" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Photo">
+    <Key>
+      <PropertyRef Name="Photo_Id" />
+    </Key>
+    <Property Name="Photo_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Photo_URL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Product_Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Photo_ProductId" FromRole="Photo" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Product_Id" />
+    </Key>
+    <Property Name="Product_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="QTY" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Order_Product" Relationship="Self.FK_Order_Product_ProductId" FromRole="Product" ToRole="Order_Product" />
+    <NavigationProperty Name="Photos" Relationship="Self.FK_Photo_ProductId" FromRole="Product" ToRole="Photo" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Product_UserId" FromRole="Product" ToRole="User" />
+    <NavigationProperty Name="Ratings" Relationship="Self.FK_Rating_ProductId" FromRole="Product" ToRole="Rating" />
+    <NavigationProperty Name="Comments" Relationship="ILaserModel.FK_Comment_ProductId" FromRole="Product" ToRole="Comment" />
+  </EntityType>
+  <EntityType Name="Rating">
+    <Key>
+      <PropertyRef Name="Rate_Id" />
+    </Key>
+    <Property Name="Rate_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Rate_Range" Type="Int32" Nullable="false" />
+    <Property Name="User_Id" Type="Int32" Nullable="false" />
+    <Property Name="Product_Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Rating_ProductId" FromRole="Rating" ToRole="Product" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Rating_UserId" FromRole="Rating" ToRole="User" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="User_Id" />
+    </Key>
+    <Property Name="User_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="User_FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="User_LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TypeId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Order_Product" Relationship="Self.FK_Order_Product_UserId" FromRole="User" ToRole="Order_Product" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Product_UserId" FromRole="User" ToRole="Product" />
+    <NavigationProperty Name="Ratings" Relationship="Self.FK_Rating_UserId" FromRole="User" ToRole="Rating" />
+    <NavigationProperty Name="User_Type" Relationship="Self.FK_User_User_Type" FromRole="User" ToRole="User_Type" />
+    <NavigationProperty Name="Comments" Relationship="ILaserModel.FK_Comment_UserId" FromRole="User" ToRole="Comment" />
+    <NavigationProperty Name="User_Photo" Relationship="ILaserModel.FK_User_Photo_User_PhotoId" FromRole="User" ToRole="User_Photo" />
+  </EntityType>
+  <EntityType Name="User_Type">
+    <Key>
+      <PropertyRef Name="Type_Id" />
+    </Key>
+    <Property Name="Type_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Type_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Users" Relationship="Self.FK_User_User_Type" FromRole="User_Type" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_Order_Product_ProductId">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="Order_Product" Type="Self.Order_Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Product_Id" />
+      </Principal>
+      <Dependent Role="Order_Product">
+        <PropertyRef Name="Product_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Product_UserId">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Order_Product" Type="Self.Order_Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="User_Id" />
+      </Principal>
+      <Dependent Role="Order_Product">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Photo_ProductId">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="Photo" Type="Self.Photo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Product_Id" />
+      </Principal>
+      <Dependent Role="Photo">
+        <PropertyRef Name="Product_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_UserId">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="User_Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Rating_ProductId">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Product_Id" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="Product_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Rating_UserId">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="User_Id" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_User_Type">
+    <End Role="User_Type" Type="Self.User_Type" Multiplicity="1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_Type">
+        <PropertyRef Name="Type_Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ILaserEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Order_Product" EntityType="Self.Order_Product" />
+    <EntitySet Name="Photos" EntityType="Self.Photo" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="Ratings" EntityType="Self.Rating" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="User_Type" EntityType="Self.User_Type" />
+    <AssociationSet Name="FK_Order_Product_ProductId" Association="Self.FK_Order_Product_ProductId">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Order_Product" EntitySet="Order_Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Product_UserId" Association="Self.FK_Order_Product_UserId">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Order_Product" EntitySet="Order_Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Photo_ProductId" Association="Self.FK_Photo_ProductId">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Photo" EntitySet="Photos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_UserId" Association="Self.FK_Product_UserId">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Rating_ProductId" Association="Self.FK_Rating_ProductId">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Rating" EntitySet="Ratings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Rating_UserId" Association="Self.FK_Rating_UserId">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Rating" EntitySet="Ratings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_User_Type" Association="Self.FK_User_User_Type">
+      <End Role="User_Type" EntitySet="User_Type" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <EntitySet Name="Comments" EntityType="ILaserModel.Comment" />
+    <AssociationSet Name="FK_Comment_ProductId" Association="ILaserModel.FK_Comment_ProductId">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_UserId" Association="ILaserModel.FK_Comment_UserId">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <EntitySet Name="User_Photo" EntityType="ILaserModel.User_Photo" />
+    <AssociationSet Name="FK_User_Photo_User_PhotoId" Association="ILaserModel.FK_User_Photo_User_PhotoId">
+      <End Role="User" EntitySet="Users" />
+      <End Role="User_Photo" EntitySet="User_Photo" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="Comment_Id" />
+    </Key>
+    <Property Name="Comment_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="User_Id" Type="Int32" Nullable="false" />
+    <Property Name="Prouduct_Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="ILaserModel.FK_Comment_ProductId" FromRole="Comment" ToRole="Product" />
+    <NavigationProperty Name="User" Relationship="ILaserModel.FK_Comment_UserId" FromRole="Comment" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_Comment_ProductId">
+    <End Type="ILaserModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="ILaserModel.Comment" Role="Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Product_Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="Prouduct_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_UserId">
+    <End Type="ILaserModel.User" Role="User" Multiplicity="1" />
+    <End Type="ILaserModel.Comment" Role="Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="User_Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="User_Photo">
+    <Key>
+      <PropertyRef Name="Photo_Id" />
+    </Key>
+    <Property Name="Photo_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Photo_URL" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="User_Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="ILaserModel.FK_User_Photo_User_PhotoId" FromRole="User_Photo" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_User_Photo_User_PhotoId">
+    <End Type="ILaserModel.User" Role="User" Multiplicity="1" />
+    <End Type="ILaserModel.User_Photo" Role="User_Photo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="User_Id" />
+      </Principal>
+      <Dependent Role="User_Photo">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

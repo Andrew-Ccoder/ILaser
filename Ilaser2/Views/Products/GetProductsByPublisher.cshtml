@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Ilaser2.Models.Product>
+
+@{
+    ViewBag.Title = "GetProductsByPublisher";
+}
+
+<h2>GetProductsByPublisher</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+           Product Name
+        </th>
+        <th>
+           Product Discription 
+        </th>
+        <th>
+          Product Quantity
+        </th>
+        <th>
+           Product Price
+        </th>
+        <th>
+          Product Owner
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QTY)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.User_FirstName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Product_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Product_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Product_Id })
+        </td>
+    </tr>
+}
+
+</table>

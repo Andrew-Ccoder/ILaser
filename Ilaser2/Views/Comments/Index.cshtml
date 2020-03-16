@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Ilaser2.Models.Comment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+           The Comment
+        </th>
+        <th>
+          Time 
+        </th>
+        <th>
+           Product Name
+        </th>
+        <th>
+            Commented User Name
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Time)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.User_FirstName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Comment_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Comment_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Comment_Id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Ilaser2.Models.Photo>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+          Product Photo
+        </th>
+        <th>
+           Product Name
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            <img src="~/Uploads/@Html.DisplayFor(model => item.Photo_URL)" class="thumbnail" style="width:150px;height:150px;" />
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Photo_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Photo_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Photo_Id })
+        </td>
+    </tr>
+}
+
+</table>

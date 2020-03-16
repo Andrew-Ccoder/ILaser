@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Ilaser2.Models.Product >
+
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Welcome Dear</h1>
+    <p class="lead" style="color:black">
+    Welcome in the space of Laser universal, you can publish your products if you have a lasr machine or you can purchase a product if you are searching about a speciefic product </p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-lg">المزيد من التفاصيل &raquo;</a></p>
+</div>
+
+
+@foreach (var item in Model)
+{
+    <div class="panel panel-default" style="padding:15px; padding-left:20px;">
+       
+
+        <div class="row">
+            @foreach (var subItem in item.Photos)
+            {
+                <h1>@Html.DisplayFor(modelItem => item.Name)</h1>
+                <h5>@Html.DisplayFor(modelItem => item.Description)</h5>
+
+                <div class="col-md-3 thumbnail" style="margin-left:20px;margin-bottom:30px;">
+                    <img src="~/Uploads/@subItem.Photo_URL" style="height:350px; width:auto;">
+                   
+                    <h2>Users Comments</h2> 
+                    @foreach (var c in item.Comments)
+                    {
+                        
+                        <h3>@Html.DisplayFor(modelItem => c.Description )</h3>
+                        <h6>@Html.DisplayFor(modelItem => c.User.User_FirstName)</h6>
+
+                    }
+
+                    @foreach (var R in item.Ratings)
+                    {
+
+
+                        for (int i = 0; i < R.Rate_Range ; i++)
+                        {
+                            <span class="glyphicon glyphicon-star" style="color:gold"></span>
+                        }
+                        @*for (int i = R.Rate_Range; i < 5; i++)
+                        {
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                        }*@
+
+
+                    }
+                    @Html.ActionLink("Detais", "Login","Users", new { prduct_Id = subItem.Product_Id }, new { @class = "btn btn-primary" })
+                </div>
+            }
+        </div>
+         </div>
+}
+
+------------------
+
+@*<table class="table table-bordered table-hover">
+    <tr>
+
+        <th>
+            Rate
+        </th>
+        <th>
+            Customer Name
+        </th>
+        <th>
+            Customer Adress
+        </th>
+        <th>
+            Customer Phone Number
+        </th>
+
+        <th>
+            Product Name
+        </th>
+    </tr>
+    @foreach (var item in gr.Items)
+    {
+        <tr>
+
+            <th>
+                @for (int i = 0; i < item.Rate_Range; i++)
+                {
+                    <span class="glyphicon glyphicon-star" style="color:gold"></span>
+                }
+                @for (int i = item.Rate_Range; i < 5; i++)
+                {
+                    <span class="glyphicon glyphicon-star-empty"></span>
+                }
+            </th>
+            <th>
+                @item.User.User_FirstName
+            </th>
+            <th>
+                @item.User.Address
+            </th>
+            <th>
+                @item.User.Phone
+            </th>
+            <th>
+                @item.Product.Name
+            </th>
+        </tr>
+    }
+</table>*@

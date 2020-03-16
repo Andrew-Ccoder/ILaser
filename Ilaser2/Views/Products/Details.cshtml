@@ -1,0 +1,69 @@
+﻿@model Ilaser2.Models.Product
+
+@{
+    ViewBag.Title = "Create";
+    if (Session["ad_id"] == null)
+    {
+        Response.Redirect("~/Login/Users");
+    }
+}
+<h1> Welcome </h1>
+<h2> @Session["ad_username"].ToString()</h2>
+<span><a href="@Url.Action("Logout","Users")"> Logout </a></span>
+
+<div>
+
+    <h4>Product</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+           Product Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+           Product Discription
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+           Product Quantity
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QTY)
+        </dd>
+
+        <dt>
+          Product Price
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+          Product Owner
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.User_FirstName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Product_Id }) |
+    @Html.ActionLink("Back to List", "Index" )
+
+    <a href="@Url.Action("Create","Order_Product")" class="btn btn-primary"> Place an Order </a>||
+    <a href="@Url.Action("Create","Comments")" class="btn btn-primary"> Leave a comment </a>||
+    <a href="@Url.Action("Create","Ratings")" class="btn btn-primary"> Leave a Rating </a>
+    <a href="@Url.Action("Create","Photos")" class="btn btn-primary">Choose Product Photos Album</a>
+</p>
