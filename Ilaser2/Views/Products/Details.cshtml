@@ -62,8 +62,20 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.Product_Id }) |
     @Html.ActionLink("Back to List", "Index" )
 
-    <a href="@Url.Action("Create","Order_Product")" class="btn btn-primary"> Place an Order </a>||
-    <a href="@Url.Action("Create","Comments")" class="btn btn-primary"> Leave a comment </a>||
-    <a href="@Url.Action("Create","Ratings")" class="btn btn-primary"> Leave a Rating </a>
+    @*<a href="@Url.Action("Create","Order_Product")" class="btn btn-primary"> Place an Order </a>||*@
+    @*<a href="@Url.Action("Create","Comments")" class="btn btn-primary"> Leave a comment </a>||*@
+    @*<a href="@Url.Action("Create","Ratings")" class="btn btn-primary"> Leave a Rating </a>*@
     <a href="@Url.Action("Create","Photos")" class="btn btn-primary">Choose Product Photos Album</a>
 </p>
+ <div>
+     @Html.Partial("_CreateComment", new Ilaser2.Models.Comment())
+ </div>
+<div>
+    @Html.Partial("_CreateRating", new Ilaser2.Models.Rating())
+</div>
+<div>
+    @Html.Partial("_MakeOrder", new Ilaser2.Models.Order_Product())
+</div>
+<div>
+    @Html.Partial("_CreateProductPhotos", new Ilaser2.Models.Photo())
+</div>

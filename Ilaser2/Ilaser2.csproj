@@ -301,6 +301,10 @@
     <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\Users\Home.cshtml" />
     <Content Include="Views\Users\Home - Copy.cshtml" />
+    <Content Include="Views\Products\_CreateComment.cshtml" />
+    <Content Include="Views\Products\_CreateRating.cshtml" />
+    <Content Include="Views\Products\_MakeOrder.cshtml" />
+    <Content Include="Views\Products\_CreateProductPhotos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
