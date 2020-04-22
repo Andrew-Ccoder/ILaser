@@ -24,7 +24,12 @@
                 @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <div>
+            @ViewBag.MinusMessage
+        </div>
+        <div>
+            @ViewBag.ErrorMessage @ViewBag.PQTY
+        </div>
         @*<div class="form-group">
             @Html.LabelFor(model => model.Total_Price, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

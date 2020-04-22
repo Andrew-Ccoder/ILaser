@@ -36,6 +36,10 @@
     <NavigationProperty Name="User" Relationship="Self.FK_Product_UserId" FromRole="Product" ToRole="User" />
     <NavigationProperty Name="Ratings" Relationship="Self.FK_Rating_ProductId" FromRole="Product" ToRole="Rating" />
     <NavigationProperty Name="Comments" Relationship="ILaserModel.FK_Comment_ProductId" FromRole="Product" ToRole="Comment" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="ProductMainPicture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Cat_Id" Type="Int32" />
+    <NavigationProperty Name="Category" Relationship="ILaserModel.FK_Product_CategoryId" FromRole="Product" ToRole="Category" />
   </EntityType>
   <EntityType Name="Rating">
     <Key>
@@ -47,6 +51,7 @@
     <Property Name="Product_Id" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Product" Relationship="Self.FK_Rating_ProductId" FromRole="Rating" ToRole="Product" />
     <NavigationProperty Name="User" Relationship="Self.FK_Rating_UserId" FromRole="Rating" ToRole="User" />
+    <Property Name="Rating_Avg" Type="Int32" />
   </EntityType>
   <EntityType Name="User">
     <Key>
@@ -66,6 +71,7 @@
     <NavigationProperty Name="User_Type" Relationship="Self.FK_User_User_Type" FromRole="User" ToRole="User_Type" />
     <NavigationProperty Name="Comments" Relationship="ILaserModel.FK_Comment_UserId" FromRole="User" ToRole="Comment" />
     <NavigationProperty Name="User_Photo" Relationship="ILaserModel.FK_User_Photo_User_PhotoId" FromRole="User" ToRole="User_Photo" />
+    <Property Name="UserPhoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="User_Type">
     <Key>
@@ -209,6 +215,11 @@
       <End Role="User" EntitySet="Users" />
       <End Role="User_Photo" EntitySet="User_Photo" />
     </AssociationSet>
+    <EntitySet Name="Categories" EntityType="ILaserModel.Category" />
+    <AssociationSet Name="FK_Product_CategoryId" Association="ILaserModel.FK_Product_CategoryId">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Comment">
     <Key>
@@ -264,6 +275,27 @@
       </Principal>
       <Dependent Role="User_Photo">
         <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CategoryDiscription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Products" Relationship="ILaserModel.FK_Product_CategoryId" FromRole="Category" ToRole="Product" />
+  </EntityType>
+  <Association Name="FK_Product_CategoryId">
+    <End Type="ILaserModel.Category" Role="Category" Multiplicity="0..1" />
+    <End Type="ILaserModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="Cat_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -5,60 +5,117 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>Welcome Dear</h1>
-    <p class="lead" style="color:black">
-    Welcome in the space of Laser universal, you can publish your products if you have a lasr machine or you can purchase a product if you are searching about a speciefic product </p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">المزيد من التفاصيل &raquo;</a></p>
-</div>
+<br />
+<br />
+<br />
 
+<div class="container" style="border-style:groove;color:#ffffff;background-color:#13132b;padding:15px;">
 
-@foreach (var item in Model)
-{
-    <div class="panel panel-default" style="padding:15px; padding-left:20px;">
-       
+    @foreach (var item in Model)
+    {
+        int count = 0;
+        int sum = 0;
+        int average = 0;
+        int counter = 0;
+        if (item.IsDeleted != true)
+        {
 
-        <div class="row">
-            @foreach (var subItem in item.Photos)
-            {
-                <h1>@Html.DisplayFor(modelItem => item.Name)</h1>
-                <h5>@Html.DisplayFor(modelItem => item.Description)</h5>
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="card" style="width:400px">
+                        <img class="card-img-top" src="~/Uploads/@Html.DisplayFor(model => item.ProductMainPicture)" alt="Card image" style="width:30%">
 
-                <div class="col-md-3 thumbnail" style="margin-left:20px;margin-bottom:30px;">
-                    <img src="~/Uploads/@subItem.Photo_URL" style="height:350px; width:auto;">
-                   
-                    <h2>Users Comments</h2> 
+                        <h2>@Html.DisplayFor(modelItem => item.Name)</h2>
+
+                        <div class="card-body">
+                            <hr />
+                            <h5 class="card-text">
+                                Description:  @Html.DisplayFor(modelItem => item.Description) <br />
+                                <br />
+                                Quantity: @Html.DisplayFor(modelItem => item.QTY) <br /><br />
+                                Price: @Html.DisplayFor(modelItem => item.Price)<br /><br />
+                                Owner:@Html.DisplayFor(modelItem => item.User.User_FirstName)
+
+                            </h5>
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    @foreach (var subItem in item.Photos)
+                    {
+                        <img src="~/Uploads/@subItem.Photo_URL" class="img-circle" style="height:200px; width:100;">
+                    }
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+
+                </div>
+                <div class="col-lg-4">
+                    <h2 style="font-family:Verdana, Geneva, Tahoma, sans-serif;color:#ffffff">Customers Opinion</h2>
+                    <hr />
                     @foreach (var c in item.Comments)
                     {
-                        
-                        <h3>@Html.DisplayFor(modelItem => c.Description )</h3>
+                        counter++;
                         <h6>@Html.DisplayFor(modelItem => c.User.User_FirstName)</h6>
 
-                    }
+                        <h4>@Html.DisplayFor(modelItem => c.Description)</h4>
 
+                        if (counter == 3)
+                        {
+                            break;
+                        }
+
+
+                    }
+                </div>
+                <div class="col-lg-3">
+                    <br />
                     @foreach (var R in item.Ratings)
                     {
-
-
-                        for (int i = 0; i < R.Rate_Range ; i++)
+                        count++;
+                        sum = sum + R.Rate_Range;
+                    }
+                   
+                  
+                    @try
+                    {
+                        average = sum / count;
+                        for (int i = 0; i < average; i++)
                         {
-                            <span class="glyphicon glyphicon-star" style="color:gold"></span>
+                            <span class="glyphicon glyphicon-star" style="color:gold;font-size:x-large"></span>
+
                         }
-                        @*for (int i = R.Rate_Range; i < 5; i++)
+                    }
+                    catch
+                    {
+                        foreach (var R in item.Ratings)
                         {
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                        }*@
+                            for (int i = average; i < 5; i++)
+                            {
+                                <span class="glyphicon glyphicon-star-empty" style="color:black;font-size:x-large"></span>
 
+                            }
+                        }
 
                     }
-                    @Html.ActionLink("Detais", "Login","Users", new { prduct_Id = subItem.Product_Id }, new { @class = "btn btn-primary" })
-                </div>
-            }
-        </div>
-         </div>
-}
 
-------------------
+                </div>
+
+                
+            </div>
+            <div class="row">
+                <div class="col-lg-12 btn btn-primary">
+                    @Html.ActionLink("Login to know more", "Login", "Users", new { id = item.Product_Id }, new { @class = "col-lg-12 btn btn-primary" })
+                </div>
+
+
+            </div>
+        }
+    }
+    </div>
+    }
 
 @*<table class="table table-bordered table-hover">
     <tr>

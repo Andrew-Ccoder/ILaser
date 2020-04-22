@@ -29,6 +29,9 @@ namespace Ilaser2.Models
         public int QTY { get; set; }
         public string Price { get; set; }
         public int UserId { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
+        public string ProductMainPicture { get; set; }
+        public Nullable<int> Cat_Id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order_Product> Order_Product { get; set; }
@@ -39,5 +42,6 @@ namespace Ilaser2.Models
         public virtual ICollection<Rating> Ratings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual Category Category { get; set; }
     }
 }

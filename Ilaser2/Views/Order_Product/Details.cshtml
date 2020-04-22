@@ -3,51 +3,55 @@
 @{
     ViewBag.Title = "Details";
 }
+<div class="row">
+    <div class="col-lg-offset-1 col-lg-5" style="color:gold;background-color:#13132b;padding:15px;">
 
-<h2>Details</h2>
+        <h2>Details</h2>
 
-<div>
-    <h4>Order_Product</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-          Quantity
-        </dt>
+        <div>
+            <h4>Order_Product</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    Quantity
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Qty)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Qty)
+                </dd>
 
-        <dt>
-          Total Price
-        </dt>
+                <dt>
+                    Total Price
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Total_Price)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Total_Price)
+                </dd>
 
-        <dt>
-            Product Name
-        </dt>
+                <dt>
+                    Product Name
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Product.Name)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Product.Name)
+                </dd>
 
-        <dt>
-          Customer Name
-        </dt>
+                <dt>
+                    Photo
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.User.User_FirstName)
-            @Html.DisplayFor(model => model.User.User_LastName )
+                <dd>
+                    <img src="~/Uploads/@Model.Product.ProductMainPicture" class="thumbnail" style="height:100px;">
 
 
-        </dd>
 
-    </dl>
+                </dd>
+
+            </dl>
+        </div>
+        <p>
+            
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+        </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Order_Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

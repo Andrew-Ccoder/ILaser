@@ -3,52 +3,53 @@
 @{
     ViewBag.Title = "Index";
 }
+<div class="row">
+    <div class="col-lg-offset-1 col-lg-5" style="color:gold;background-color:#13132b;padding:15px;">
 
-<h2>Index</h2>
+        <h2>Your Orders</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-          Quantity
-        </th>
-        <th>
-           Total Price
-        </th>
-        <th>
-           Product Name
-        </th>
-        <th>
-            Customer Name
-        </th>
-        <th></th>
-    </tr>
+        <a href="@Url.Action("Index","Products")" class="btn btn-success"> Create a new order</a>
+        <table class="table table-dark table-hover">
+            <tr>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Total Price
+                </th>
+                <th>
+                    Product Name
+                </th>
+             <th>
+                 Photo
+             </th>
+                <th></th>
+            </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Qty)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Total_Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Product.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.User_FirstName)
-            @Html.DisplayFor(modelItem => item.User.User_LastName )
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Qty)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Total_Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.Name)
+                    </td>
+                 <td>
+                     <img src="~/Uploads/@item.Product.ProductMainPicture" class="thumbnail" style="height:100px;">
 
+                 </td>
+                    <td class="btn btn-primary">
 
-        </td>
-        <td>
-           
-            @Html.ActionLink("Details", "Details", new { id=item.Order_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Order_Id })
-        </td>
-    </tr>
-}
+                        @Html.ActionLink("Details", "Details", new { id = item.Order_Id }) 
+                      
+                    </td>
+                </tr>
+            }
 
-</table>
+        </table>
+</div>
+</div>

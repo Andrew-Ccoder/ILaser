@@ -33,5 +33,6 @@ namespace Ilaser2.Models
         public virtual DbSet<User_Type> User_Type { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<User_Photo> User_Photo { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
     }
 }

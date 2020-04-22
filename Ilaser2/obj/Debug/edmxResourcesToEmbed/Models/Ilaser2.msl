@@ -24,6 +24,9 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="ILaserModel.Product">
         <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="Cat_Id" ColumnName="Cat_Id" />
+          <ScalarProperty Name="ProductMainPicture" ColumnName="ProductMainPicture" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
           <ScalarProperty Name="Product_Id" ColumnName="Product_Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Description" ColumnName="Description" />
@@ -36,6 +39,7 @@
     <EntitySetMapping Name="Ratings">
       <EntityTypeMapping TypeName="ILaserModel.Rating">
         <MappingFragment StoreEntitySet="Rating">
+          <ScalarProperty Name="Rating_Avg" ColumnName="Rating_Avg" />
           <ScalarProperty Name="Rate_Id" ColumnName="Rate_Id" />
           <ScalarProperty Name="Rate_Range" ColumnName="Rate_Range" />
           <ScalarProperty Name="User_Id" ColumnName="User_Id" />
@@ -46,6 +50,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="ILaserModel.User">
         <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="UserPhoto" ColumnName="UserPhoto" />
           <ScalarProperty Name="User_Id" ColumnName="User_Id" />
           <ScalarProperty Name="User_FirstName" ColumnName="User_FirstName" />
           <ScalarProperty Name="User_LastName" ColumnName="User_LastName" />
@@ -83,6 +88,15 @@
           <ScalarProperty Name="User_Id" ColumnName="User_Id" />
           <ScalarProperty Name="Photo_URL" ColumnName="Photo_URL" />
           <ScalarProperty Name="Photo_Id" ColumnName="Photo_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="ILaserModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="CategoryDiscription" ColumnName="CategoryDiscription" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

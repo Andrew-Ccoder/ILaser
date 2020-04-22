@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ILaserModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CategoryDiscription" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="Comment_Id" />
@@ -43,6 +51,9 @@
           <Property Name="QTY" Type="int" Nullable="false" />
           <Property Name="Price" Type="nvarchar(max)" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="ProductMainPicture" Type="nvarchar(max)" />
+          <Property Name="Cat_Id" Type="int" />
         </EntityType>
         <EntityType Name="Rating">
           <Key>
@@ -52,6 +63,7 @@
           <Property Name="Rate_Range" Type="int" Nullable="false" />
           <Property Name="User_Id" Type="int" Nullable="false" />
           <Property Name="Product_Id" Type="int" Nullable="false" />
+          <Property Name="Rating_Avg" Type="int" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -65,6 +77,7 @@
           <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
           <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="UserPhoto" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="User_Photo">
           <Key>
@@ -142,6 +155,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Product_CategoryId">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Cat_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Product_UserId">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -203,6 +228,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ILaserModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Order_Product" EntityType="Self.Order_Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Photo" EntityType="Self.Photo" Schema="dbo" store:Type="Tables" />
@@ -230,6 +256,10 @@
           <AssociationSet Name="FK_Photo_ProductId" Association="Self.FK_Photo_ProductId">
             <End Role="Product" EntitySet="Product" />
             <End Role="Photo" EntitySet="Photo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_CategoryId" Association="Self.FK_Product_CategoryId">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
           </AssociationSet>
           <AssociationSet Name="FK_Product_UserId" Association="Self.FK_Product_UserId">
             <End Role="User" EntitySet="User" />
@@ -292,6 +322,10 @@
           <NavigationProperty Name="User" Relationship="Self.FK_Product_UserId" FromRole="Product" ToRole="User" />
           <NavigationProperty Name="Ratings" Relationship="Self.FK_Rating_ProductId" FromRole="Product" ToRole="Rating" />
           <NavigationProperty Name="Comments" Relationship="ILaserModel.FK_Comment_ProductId" FromRole="Product" ToRole="Comment" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="ProductMainPicture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Cat_Id" Type="Int32" />
+          <NavigationProperty Name="Category" Relationship="ILaserModel.FK_Product_CategoryId" FromRole="Product" ToRole="Category" />
         </EntityType>
         <EntityType Name="Rating">
           <Key>
@@ -303,6 +337,7 @@
           <Property Name="Product_Id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Rating_ProductId" FromRole="Rating" ToRole="Product" />
           <NavigationProperty Name="User" Relationship="Self.FK_Rating_UserId" FromRole="Rating" ToRole="User" />
+          <Property Name="Rating_Avg" Type="Int32" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -322,6 +357,7 @@
           <NavigationProperty Name="User_Type" Relationship="Self.FK_User_User_Type" FromRole="User" ToRole="User_Type" />
           <NavigationProperty Name="Comments" Relationship="ILaserModel.FK_Comment_UserId" FromRole="User" ToRole="Comment" />
           <NavigationProperty Name="User_Photo" Relationship="ILaserModel.FK_User_Photo_User_PhotoId" FromRole="User" ToRole="User_Photo" />
+          <Property Name="UserPhoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="User_Type">
           <Key>
@@ -465,6 +501,11 @@
             <End Role="User" EntitySet="Users" />
             <End Role="User_Photo" EntitySet="User_Photo" />
           </AssociationSet>
+          <EntitySet Name="Categories" EntityType="ILaserModel.Category" />
+          <AssociationSet Name="FK_Product_CategoryId" Association="ILaserModel.FK_Product_CategoryId">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Comment">
           <Key>
@@ -523,6 +564,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryDiscription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Products" Relationship="ILaserModel.FK_Product_CategoryId" FromRole="Category" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_Product_CategoryId">
+          <End Type="ILaserModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="ILaserModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Cat_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -552,6 +614,9 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="ILaserModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Cat_Id" ColumnName="Cat_Id" />
+                <ScalarProperty Name="ProductMainPicture" ColumnName="ProductMainPicture" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Product_Id" ColumnName="Product_Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -564,6 +629,7 @@
           <EntitySetMapping Name="Ratings">
             <EntityTypeMapping TypeName="ILaserModel.Rating">
               <MappingFragment StoreEntitySet="Rating">
+                <ScalarProperty Name="Rating_Avg" ColumnName="Rating_Avg" />
                 <ScalarProperty Name="Rate_Id" ColumnName="Rate_Id" />
                 <ScalarProperty Name="Rate_Range" ColumnName="Rate_Range" />
                 <ScalarProperty Name="User_Id" ColumnName="User_Id" />
@@ -574,6 +640,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ILaserModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserPhoto" ColumnName="UserPhoto" />
                 <ScalarProperty Name="User_Id" ColumnName="User_Id" />
                 <ScalarProperty Name="User_FirstName" ColumnName="User_FirstName" />
                 <ScalarProperty Name="User_LastName" ColumnName="User_LastName" />
@@ -611,6 +678,15 @@
                 <ScalarProperty Name="User_Id" ColumnName="User_Id" />
                 <ScalarProperty Name="Photo_URL" ColumnName="Photo_URL" />
                 <ScalarProperty Name="Photo_Id" ColumnName="Photo_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="ILaserModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="CategoryDiscription" ColumnName="CategoryDiscription" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

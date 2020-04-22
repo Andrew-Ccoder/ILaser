@@ -1,0 +1,73 @@
+﻿@model Ilaser2.Models.Product
+
+@{
+    ViewBag.Title = "Delete";
+}
+<div class="row">
+    <div class="col-lg-offset-1 col-lg-5" style="color:gold;background-color:#13132b;padding:15px;">
+
+
+        <h2>Are you sure you want to Restore this Product?</h2>
+
+      
+        <div>
+           
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                  Name
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                   Discription
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+
+                <dt>
+                   Quantity
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.QTY)
+                </dd>
+
+                <dt>
+                   Price
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Price)
+                </dd>
+
+                <dt>
+                   Photo
+                </dt>
+
+                <dd>
+                    <img src="~/Uploads/@Model.ProductMainPicture" class="thumbnail" style="height:100px;">
+
+                </dd>
+
+            </dl>
+            <div>
+                @ViewBag.Delete
+            </div>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Restore" class="btn btn-default" /> |
+                    @Html.ActionLink("Back to List", "Index")
+                </div>
+            }
+        </div>
+        </div>
+</div>

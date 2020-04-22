@@ -18,6 +18,7 @@ namespace Ilaser2.Models
         public int Rate_Range { get; set; }
         public int User_Id { get; set; }
         public int Product_Id { get; set; }
+        public Nullable<int> Rating_Avg { get; set; }
     
         public virtual Product Product { get; set; }
         public virtual User User { get; set; }

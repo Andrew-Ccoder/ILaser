@@ -4,85 +4,161 @@
     ViewBag.Title = "Register";
 }
 
-<h2>Register</h2>
 
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
-        <h4>User</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.Label("Your First-Name", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.User_FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.User_FirstName, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.Label("Your Last-Name", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.User_LastName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.User_LastName, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    @using (Html.BeginForm("Register", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row">
+            @if (ViewBag.DuplicationMessage == "Sorry This User Already existed")
+            {
+            <div class="alert alert-danger col-lg-offset-6 col-lg-5" id="error-div">
+                <span id="view-err">
+                    @ViewBag.DuplicationMessage
 
-        <div class="form-group">
-            @Html.Label("Your Email", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </span>
             </div>
-        </div>
+            }
+            else if(ViewBag.Message== "Your registeration is successfully done")
+            {
+            <div class="alert alert-success col-lg-offset-6 col-lg-5 " id="error-div">
+                <span id="view-err">
+                    @ViewBag.Message
+                </span>
+            </div>
 
-        <div class="form-group">
-            @Html.Label("Your Password", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.Label("Your Address", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-            </div>
+            }
+            else if (ViewBag.Picture == "Please Select a Profile picture")
+            {
+                <div class="alert alert-danger col-lg-offset-6 col-lg-5 " id="error-div">
+                    <span id="view-err">
+                        @ViewBag.Picture
+                    </span>
+                </div>
+            }
+         
         </div>
+       
+        <div class="form-horizontal row">
+            
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="col-lg-offset-6 col-lg-5" style="color:gold;background-color:#13132b;padding:15px;">
+                <h2> Register </h2>
+                <hr />
+                <div class="form-group">
+                    <div class="col-lg-4" style="color:gold">
+                        @Html.Label("First-Name", htmlAttributes: new { @class = "control-label" })
 
-        <div class="form-group">
-            @Html.Label("Your Phone Number", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        @Html.EditorFor(model => model.User_FirstName, new { htmlAttributes = new { @class = "form-control " } })
+                        @Html.ValidationMessageFor(model => model.User_FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-        <div class="form-group">
-            @Html.Label("Customer or Publisher", "User_Type", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("User_Type", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <div class="form-group">
+                    <div class="col-offset-lg-2 col-lg-4" style="color:gold">
+                        @Html.Label("Last-Name", htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-lg-8">
+                        @Html.EditorFor(model => model.User_LastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.User_LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <div class="form-group">
+                    <div class="col-offset-lg-2 col-lg-4" style="color:gold">
+                        @Html.Label("Email", htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-offset-lg-2 col-lg-4" style="color:gold">
+                        @Html.Label("Password", htmlAttributes: new { @class = "control-label" })
+                    </div>
+
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-4" style="color:gold">
+                        @Html.Label("Confirmation", htmlAttributes: new { @class = "control-label" })
+                    </div>
+
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                       
+                           @ViewBag.NotMatch
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-offset-lg-2 col-lg-4" style="color:gold">
+
+                        @Html.Label("Address", htmlAttributes: new { @class = "control-label" })
+                    </div>
+
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-offset-lg-2 col-lg-4" style="color:gold">
+
+                        @Html.Label("Phone Number", htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-5" style="color:gold">
+
+                        @Html.Label("Choose your Photo", htmlAttributes: new { @class = "control-label" })
+                    </div>
+
+                    <div class="col-lg-7" style="color:gold">
+                        <input type="file" name="upload" id="JobImageErr" />
+                        @Html.ValidationMessageFor(model => model.UserPhoto, " ", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-offset-lg-2 col-lg-4" style="color:gold">
+
+                        @Html.Label("Customer or Publisher", " ", htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-8">
+                        @Html.DropDownList("TypeId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-1">
+                        <input type="submit" value="Create" class="btn btn-success" id="Save" />
+                    </div>
+                    <div class="col-lg-offset-2 col-lg-2">
+                        <a href="@Url.Action("Login","Users")" class="btn btn-primary"> Back to Login </a>
+                    </div>
+                </div>
             </div>
+            
         </div>
-    </div>
+           }
+
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@

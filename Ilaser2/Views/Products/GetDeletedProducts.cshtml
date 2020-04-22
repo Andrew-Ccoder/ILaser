@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Ilaser2.Models.Product>
+
+@{
+    ViewBag.Title = "GetProductsByPublisher";
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<div class="row">
+    <div class="col-lg-offset-1 col-lg-5" style="color:gold;background-color:#13132b;padding:15px;">
+
+
+        <h2>Your Deleted List</h2>
+
+
+
+
+        <table class="table table-dark table-hover">
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                   Discription
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                   Photo
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                if (item.IsDeleted == true)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.QTY)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.User.User_FirstName)
+                        </td>
+                        <td>
+                            <img src="~/Uploads/@item.ProductMainPicture" class="thumbnail" style="height:100px;">
+
+                        </td>
+                        <td class="btn btn-primary">
+                          
+                            @Html.ActionLink("Details", "Details", new { id = item.Product_Id })
+                           
+                        </td>
+                    </tr>
+                }
+            }
+
+        </table>
+        </div>
+</div>

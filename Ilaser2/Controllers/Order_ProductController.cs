@@ -51,19 +51,53 @@ namespace Ilaser2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Order_Product order_Product)
+        public ActionResult Create(Order_Product order_Product,Product product)
         {
 
             if (ModelState.IsValid)
             {
-                order_Product.User_Id = Convert.ToInt32(Session["ad_Id"]);
-                order_Product.Product_Id = Convert.ToInt32(Session["ProductId"]);
-                order_Product.Total_Price = (order_Product.Qty * Convert.ToInt32(Session["ProductPrice"])).ToString();
-                db.Order_Product.Add(order_Product);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                if((order_Product.Qty <= Convert.ToInt32(Session["ProductQty"]))&& (order_Product.Qty>0))
+                {
+                    order_Product.User_Id = Convert.ToInt32(Session["ad_Id"]);
+                    order_Product.Product_Id = Convert.ToInt32(Session["ProductId"]);
+                    order_Product.Total_Price = (order_Product.Qty * Convert.ToInt32(Session["ProductPrice"])).ToString();
+                    db.Order_Product.Add(order_Product);
+                    db.SaveChanges();
+                    Session["OrderedQty"] = order_Product.Qty;
+                    product.Name = Session["ProductName"].ToString();
+                    product.UserId = Convert.ToInt32(Session["ProductOwner"]);
+                    product.Product_Id = Convert.ToInt32(Session["ProductId"]);
+                    product.QTY = Convert.ToInt32(Session["ProductQty"]) - Convert.ToInt32(Session["OrderedQty"]);
+                    product.Price = (Session["ProductPrice"]).ToString();
+                    product.Description = Session["ProductDescription"].ToString();
+                    product.ProductMainPicture = Session["ProductMainPhoto"].ToString();
+                    db.Entry(product).State = EntityState.Modified;
+                    if (product.QTY == 0)
+                    {
+                        product.IsDeleted = true;
+                    }
+                    db.SaveChanges();
+                   
+                    return RedirectToAction("Index");
 
+                }
+                else if (order_Product.Qty <= 0)
+                {
+                    ViewBag.MinusMessage = " Your Qty Must be Positive number";
+                    return View(order_Product);
+                }
+                else 
+                {
+                    ViewBag.PQTY = Session["ProductQty"];
+                    ViewBag.ErrorMessage = " The Qty in Stock is not enought.The Maximum Qty you should order not more than";
+                    return View(order_Product);
+                }
+               
+            }
+     
+           
+
+           
             //ViewBag.Product_Id = new SelectList(db.Products, "Product_Id", "Name", order_Product.Product_Id);
             //ViewBag.User_Id = new SelectList(db.Users, "User_Id", "User_FirstName", order_Product.User_Id);
             return View(order_Product);
@@ -92,18 +126,42 @@ namespace Ilaser2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Order_Product order_Product)
+        public ActionResult Edit(Order_Product order_Product,Product product)
         {
             //var OrderedProduct = db.Products.Where(a => a.Product_Id == order_Product.Product_Id);
 
             //Session["OrderedProductId"] = OrderedProduct;
             if (ModelState.IsValid)
             {
-                order_Product.User_Id = Convert.ToInt32(Session["ad_Id"]);
-                order_Product.Product_Id = Convert.ToInt32(Session["OrderedProductId"]);
-                db.Entry(order_Product).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if ((order_Product.Qty <= Convert.ToInt32(Session["ProductQty"])) && (order_Product.Qty > 0))
+                {
+                    order_Product.User_Id = Convert.ToInt32(Session["ad_Id"]);
+                    order_Product.Product_Id = Convert.ToInt32(Session["OrderedProductId"]);
+                    order_Product.Total_Price = (order_Product.Qty * Convert.ToInt32(Session["ProductPrice"])).ToString();
+                    db.Entry(order_Product).State = EntityState.Modified;
+                    db.SaveChanges();
+                    Session["OrderedQty"] = order_Product.Qty;
+                    product.Name = Session["ProductName"].ToString();
+                    product.UserId = Convert.ToInt32(Session["ProductOwner"]);
+                    product.Product_Id = Convert.ToInt32(Session["ProductId"]);
+                    product.QTY = Convert.ToInt32(Session["ProductQty"]) - Convert.ToInt32(Session["OrderedQty"]);
+                    product.Price = (Session["ProductPrice"]).ToString();
+                    product.Description = Session["ProductDescription"].ToString();
+                    db.Entry(product).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else if (order_Product.Qty <= 0)
+                {
+                    ViewBag.MinusMessage = " Your Qty Must be Positive number";
+                    return View(order_Product);
+                }
+                else
+                {
+                    ViewBag.PQTY = Session["ProductQty"];
+                    ViewBag.ErrorMessage = " The Qty in Stock is not enought.The Maximum Qty you should order not more than";
+                    return View(order_Product);
+                }
             }
             //ViewBag.Product_Id = new SelectList(db.Products, "Product_Id", "Name", order_Product.Product_Id);
             //ViewBag.User_Id = new SelectList(db.Users, "User_Id", "User_FirstName", order_Product.User_Id);

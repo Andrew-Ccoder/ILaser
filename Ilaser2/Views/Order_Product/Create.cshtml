@@ -3,64 +3,91 @@
 @{
     ViewBag.Title = "Create";
 }
+<div class="row">
 
-<h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Order_Product</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.Label("The Quantity", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10" id="x">
-                @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+    <div class="col-lg-offset-1 col-lg-5" style="color:gold;background-color:#13132b;padding:15px;">
+
+        <h2>Place Order</h2>
+
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+               
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group"style="color:gold;">
+                    @Html.Label("The Quantity", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10" id="Qty">
+                        @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @if ((ViewBag.MinusMessage == " Your Qty Must be Positive number") || ViewBag.ErrorMessage == " The Qty in Stock is not enought.The Maximum Qty you should order not more than")
+                {
+                    <div class="alert alert-danger  col-md-offset-1 col-lg-6" id="error-div">
+                        <span id="view-err">
+                            @ViewBag.ErrorMessage
+                            @ViewBag.MinusMessage @ViewBag.PQTY
+                        </span>
+                    </div>
+
+                }
+
+                <div>
+                    @*<div class="form-group" style="color:gold;">
+                        @Html.Label("Product Picture", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10" id="Qty">
+                            <img src="~/Uploads/@Model.Product.ProductMainPicture" class="thumbnail" style="height:100px;">   
+                        </div>
+                    </div>*@
+                </div>
+                @*<div class="form-group" >
+                    @Html.LabelFor(model => model.Total_Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+
+
+                        @Html.LabelFor(model => model.Total_Price.Equals(Model.Qty * Convert.ToInt32(Model.Product.Price)).())
+                        @Html.ValidationMessageFor(model => model.Total_Price, "", new { @class = "text-danger" })
+                    </div>*@
+                @*</div>*@
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.User_Id, "User_Id", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("User_Id", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.User_Id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Product_Id, "Product_Id", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("Product_Id", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Product_Id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-success" id="Save" />
+                    </div>
+                </div>
             </div>
-        </div>
 
-        @*<div class="form-group" >
-            @Html.LabelFor(model => model.Total_Price, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-            
-
-                @Html.LabelFor(model => model.Total_Price.Equals(Model.Qty * Convert.ToInt32(Model.Product.Price)).())
-                @Html.ValidationMessageFor(model => model.Total_Price, "", new { @class = "text-danger" })
-            </div>*@
-        @*</div>*@
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.User_Id, "User_Id", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("User_Id", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.User_Id, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Product_Id, "Product_Id", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Product_Id", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Product_Id, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+        }
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+

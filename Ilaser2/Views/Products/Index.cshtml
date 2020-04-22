@@ -4,139 +4,298 @@
 {
     Response.Redirect("~/Login/Users");
 }
-@if (Convert.ToInt32(Session["User_Type"]) == 2)
-{
 
 
-    <h1> Welcome </h1>
-    <h2> @Session["ad_username"].ToString()</h2>
-    <span><a href="@Url.Action("Logout","Users")"> Logout </a></span>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayName("Product Name")
-            </th>
-            <th>
-                @Html.DisplayName("Discription")
-            </th>
-            <th>
-                @Html.DisplayName("Quantity")
-            </th>
-            <th>
-                @Html.DisplayName("Price")
-            </th>
-            <th>
-                @Html.DisplayName("Product Owner")
-            </th>
 
-            <th>
-                @Html.ActionLink("My Products", "GetProductsByPublisher")
-            </th>
-            <th>
-                @Html.ActionLink("Products Orders", "GetOrdersByWorker")
-            </th>
-            <th>
-                <a href="@Url.Action("Index","Order_Product")"> My Orders </a>
-            </th>
-            <th>
-                <a href="@Url.Action("Index","Comments")"> Customer Comments </a>
-            </th>
-            <th>
-                <a href="@Url.Action("GetRatingsByPublisher", "Products")"> Customers Ratings </a>
-            </th>
-            <th>
-                <a href="@Url.Action("Create", "User_Photo")"> Choose Profile picture </a>
-            </th>
-            <th></th>
-        </tr>
+        <hr />
+<div class="row">
+    <div class="col-lg-offset-3 col-lg-4">
+        <h2 style="position:center;background-color:#120848;padding:10px;color:gold;border:groove;border-color:gold">Welcome Back @Session["ad_username"].ToString()!</h2>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.QTY)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.User_FirstName)
-                    @Html.DisplayFor(modelItem => item.User.User_LastName)
+    </div>
+</div>
+
+        <br />
+        <br />
+        <div class="container" style="border-style: groove; background-color:#13132b; background-size:cover">
+
+            @foreach (var item in Model)
+            {
+                int sum = 0;
+                int counter = 0;
+                int count = 0;
+                int average = 0;
+
+                if (item.IsDeleted != true)
+                {
+
+                    <div class="row" style="color:floralwhite">
+                        <div class="col-lg-5">
+                            <div class="card" style="width:400px">
+                                <a class="fancybox" target="_parent" href="~/Uploads/@item.ProductMainPicture">
+                                    <img src="~/Uploads/@item.ProductMainPicture" class="thumbnail" style="height:200px;">
+                                </a>
+
+                                <h2>@Html.DisplayFor(modelItem => item.Name)</h2>
+
+                                <div class="card-body">
+
+                                    <h5 class="card-text">
+                                        Description:  @Html.DisplayFor(modelItem => item.Description) <br />
+                                        <br />
+                                        Quantity: @Html.DisplayFor(modelItem => item.QTY) <br /><br />
+                                        Price: @Html.DisplayFor(modelItem => item.Price)<br /><br />
+                                        Owner:@Html.DisplayFor(modelItem => item.User.User_FirstName)<br /><br />
+                                        Category: @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                                    </h5>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div>
+                            @foreach (var subItem in item.Photos)
+                            { <div class="row" style="display:inline-block">
+                                <a class="fancybox" target="_parent" href="~/Uploads/@subItem.Photo_URL">
+                                    <img src="~/Uploads/@subItem.Photo_URL" class="thumbnail" style="height:200px;">
+                                </a>
+                            </div>
+                            }
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+
+                        </div>
+                        <div class="col-lg-4">
+                            <h2 style="font-family:Verdana, Geneva, Tahoma, sans-serif;color:#ffffff">Customers Opinion</h2>
+                            <hr />
+                            @foreach (var c in item.Comments)
+                            {
+                                counter++;
+                                <h4>@Html.DisplayFor(modelItem => c.User.User_FirstName)</h4>
+
+                                <h5>@Html.DisplayFor(modelItem => c.Description)</h5>
+
+                                if (counter == 3)
+                                {
+                                    break;
+                                }
 
 
-                </td>
-                <td>
+                            }
+                        </div>
+                        <div class="col-lg-3">
+                            <br />
 
-                    @Html.ActionLink("Details", "Details", new { id = item.Product_Id }) |
+                            @foreach (var R in item.Ratings)
+                            {
+                                count++;
+                                sum = sum + R.Rate_Range;
+                            }
+                           
+                         
+                            @try
+                            {
+                            average = sum / count;
+                            for (int i = 0; i < average; i++)
+                            {
+                              <span class="glyphicon glyphicon-star" style="color:gold;font-size:x-large"></span>
+
+                                }
+                            }
+                            catch
+                            {
+                                foreach (var R in item.Ratings)
+                                {
+                                    for (int i = average; i < 5; i++)
+                                    {
+                                    <span class="glyphicon glyphicon-star-empty" style="color:black;font-size:x-large"></span>
+
+                                    }
+                                }
+                                
+                            }
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 btn btn-primary">
+                            @Html.ActionLink("Detais", "Details", "Products", new { id = item.Product_Id }, new { @class = "col-lg-12 btn btn-primary" })
+                        </div>
+
+                    </div>
+                }
 
 
-                </td>
-            </tr>
-        }
+            }
 
-    </table>
-}
-else
-{
-    <h1> Welcome </h1>
-    <h2> @Session["ad_username"].ToString()</h2>
-    <span><a href="@Url.Action("Logout","Users")"> Logout </a></span>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.QTY)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User.User_FirstName)
-            </th>
+            }
 
-            <th>
-                <a href="@Url.Action("Index","Order_Product")"> My Orders </a>
-            </th>
-            <th>
-                <a href="@Url.Action("Create", "User_Photo")"> Choose Profile picture </a>
-            </th>
-        </tr>
+            @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+                        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+                        <script src="~/Scripts/bootstrap.min.js"></script>
+                        <script src="~/Scripts/jquery.js"></script>
+                        <script src="~/Scripts/modernizr-2.6.2.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
+            <link href="~/Content/jquery.fancybox.css" rel="stylesheet" />
+            <link href="~/Content/jquery.fancybox-buttons.css" rel="stylesheet" />
+            <link href="~/Content/jquery.fancybox-thumbs.css" rel="stylesheet" />
+            <script src="~/scripts/jquery.fancybox.js"></script>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.QTY)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.User_FirstName)
-                </td>
-                <td>
+            <script>
+                $(function () {
 
-                    @Html.ActionLink("Details", "Details", new { id = item.Product_Id }) |
-                </td>
-            </tr>
-        }
+                    $(".fancybox").fancybox();
+                });
+            </script>
+        </div>
+       
 
-    </table>
-}
+    
+
+    @*else
+    {
+
+
+        <hr />
+        <h2 style="position:center;">Welcome Back @Session["ad_username"].ToString()!</h2>
+
+        <br />
+        <br />
+        <div class="container" style="border-style: groove; background-image: url('../../Uploads/ProductsBG.jpg'); background-size:cover">
+
+            @foreach (var item in Model)
+            {
+                int sum = 0;
+                int counter = 0;
+                int average = 0;
+                if (item.IsDeleted != true)
+                {
+
+
+                    <div class="row" style="color:floralwhite">
+                        <div class="col-lg-5">
+                            <div class="card" style="width:400px">
+                                <a class="fancybox" target="_parent" href="~/Uploads/@item.ProductMainPicture">
+                                    <img src="~/Uploads/@item.ProductMainPicture" class="thumbnail" style="height:200px;">
+                                </a>
+
+                                <h2>@Html.DisplayFor(modelItem => item.Name)</h2>
+                                <hr />
+                                <div class="card-body">
+
+                                    <h5 class="card-text">
+                                        Description:  @Html.DisplayFor(modelItem => item.Description) <br />
+                                        <br />
+                                        Quantity: @Html.DisplayFor(modelItem => item.QTY) <br /><br />
+                                        Price: @Html.DisplayFor(modelItem => item.Price)<br /><br />
+                                        Owner:@Html.DisplayFor(modelItem => item.User.User_FirstName)<br /><br />
+                                        Category: @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                                    </h5>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div>
+                            @foreach (var subItem in item.Photos)
+                        { <div class="row" style="display:inline-block">
+                            <a class="fancybox" target="_parent" href="~/Uploads/@subItem.Photo_URL">
+                                <img src="~/Uploads/@subItem.Photo_URL" class="thumbnail" style="height:200px;">
+                            </a>
+                        </div>
+                            }
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+
+                        </div>
+                        <div class="col-lg-4">
+                            <h2 style="font-family:Verdana, Geneva, Tahoma, sans-serif;color:#0026ff">Customers Opinion</h2>
+                            <hr />
+                            @foreach (var c in item.Comments)
+                        {
+                            counter++;
+                                <h4>@Html.DisplayFor(modelItem => c.User.User_FirstName)</h4>
+
+                                <h5>@Html.DisplayFor(modelItem => c.Description)</h5>
+
+                                if (counter == 3)
+                                {
+                                    break;
+                                }
+
+
+                            }
+                        </div>
+                        <div class="col-lg-3">
+                            <br />
+                            @foreach (var R in item.Ratings)
+                        {
+                            counter++;
+                            sum = sum + R.Rate_Range;
+                        }
+
+                        </div>
+                    </div>
+                    <h2>The Average </h2>
+                    <hr />
+                    try
+                    {
+                        average = sum / counter;
+                        for (int i = 0; i < average; i++)
+                        {
+                            <span class="glyphicon glyphicon-star" style="color:gold;font-size:x-large"></span>
+
+                        }
+                    }
+                    catch
+                    {
+                        foreach (var R in item.Ratings)
+                        {
+                            for (int i = R.Rate_Range; i < 5; i++)
+                            {
+                                <span class="glyphicon glyphicon-star-empty" style="color:black;font-size:x-large"></span>
+
+                            }
+
+                        }
+                    }
+                    <div class="row">
+                        <div class="col-lg-12 btn btn-primary">
+                            @Html.ActionLink("Detais", "Details", "Products", new { id = item.Product_Id }, new { @class = "col-lg-12 btn btn-primary" })
+                        </div>
+
+
+                    </div>
+           
+                }
+</div>
+            }*@
+  
+            @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+                        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+                        <script src="~/Scripts/bootstrap.min.js"></script>
+                        <script src="~/Scripts/jquery.js"></script>
+                        <script src="~/Scripts/modernizr-2.6.2.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
+            @*<link href="~/Content/jquery.fancybox.css" rel="stylesheet" />
+            <link href="~/Content/jquery.fancybox-buttons.css" rel="stylesheet" />
+            <link href="~/Content/jquery.fancybox-thumbs.css" rel="stylesheet" />
+            <script src="~/scripts/jquery.fancybox.js"></script>
+
+            <script>
+                $(function () {
+
+                    $(".fancybox").fancybox();
+                });
+            </script>
+            }*@
+
+     

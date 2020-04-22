@@ -1,81 +1,169 @@
 ﻿@model Ilaser2.Models.Product
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Details";
     if (Session["ad_id"] == null)
     {
         Response.Redirect("~/Login/Users");
     }
 }
-<h1> Welcome </h1>
-<h2> @Session["ad_username"].ToString()</h2>
-<span><a href="@Url.Action("Logout","Users")"> Logout </a></span>
 
-<div>
 
-    <h4>Product</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-           Product Name
-        </dt>
+    <div class="container" style="background-color:#ffffff;">
+       
+            @if ((Session["ad_id"]).ToString() == (Model.UserId).ToString())
+            {
+                Session["ProductPhoto"] = Model.Product_Id;
+                Session["ProductUser"] = Model.UserId;
+                Session["ProductQty"] = Model.QTY;
+                Session["ProductPrice"] = Model.Price;
+                Session["ProductName"] = Model.Name;
+                Session["productDescription"] = Model.Description;
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                Session["ProductPublisher"] = Model.User.User_Id;
+                Session["ProductMainPhoto"] = Model.ProductMainPicture;
+                <h2> @Html.DisplayFor(model => model.User.User_FirstName)'s Product Details</h2>
 
-        <dt>
-           Product Discription
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="row">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Create","Photos")" style="font-family:Verdana, Geneva, Tahoma, sans-serif;font-size:larger;"> Create photo album</a>
+                                </li>
+                                @if (Model.IsDeleted != true)
+                                {
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Delete","Products")" style="font-family:Verdana, Geneva, Tahoma, sans-serif;font-size:larger;"> Delete The Product </a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Restore","Products")" style="font-family:Verdana, Geneva, Tahoma, sans-serif;font-size:larger;"> Restore  The Product </a>
+                                    </li>
+                                }
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Edit","Products")" style="font-family:Verdana, Geneva, Tahoma, sans-serif;font-size:larger;"> Edit The Product </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Details","Users")" style="font-family:Verdana, Geneva, Tahoma, sans-serif;font-size:larger;"> View The Owner Details </a>
+                                </li>
+                                
+                            </ul>
+                            <div class="Row" style="padding-left:15px;">
+                                @Html.Action("Comment", "Products")
+                            </div>
+                                
+                                    
 
-        <dt>
-           Product Quantity
-        </dt>
+                        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.QTY)
-        </dd>
+                    </div>
+                    
+                   
+                    <div class="col-lg-7">
+                       
+                        @Html.Action("photos", "Products")
+                    </div>
+                   
+                    
+                </div>
+  
+                <hr />
 
-        <dt>
-          Product Price
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
+            }
 
-        <dt>
-          Product Owner
-        </dt>
+            else
+            {
 
-        <dd>
-            @Html.DisplayFor(model => model.User.User_FirstName)
-        </dd>
+                Session["ProductPhoto"] = Model.Product_Id;
+                Session["ProductUser"] = Model.UserId;
+                Session["ProductQty"] = Model.QTY;
+                Session["ProductPrice"] = Model.Price;
+                Session["ProductName"] = Model.Name;
+                Session["productDescription"] = Model.Description;
+                Session["ProductPublisher"] = Model.User.User_Id;
+                Session["ProductMainPhoto"] = Model.ProductMainPicture;
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Product_Id }) |
-    @Html.ActionLink("Back to List", "Index" )
+                <h2> @Html.DisplayFor(model => model.User.User_FirstName)'s Product Details</h2>
 
-    @*<a href="@Url.Action("Create","Order_Product")" class="btn btn-primary"> Place an Order </a>||*@
-    @*<a href="@Url.Action("Create","Comments")" class="btn btn-primary"> Leave a comment </a>||*@
-    @*<a href="@Url.Action("Create","Ratings")" class="btn btn-primary"> Leave a Rating </a>*@
-    <a href="@Url.Action("Create","Photos")" class="btn btn-primary">Choose Product Photos Album</a>
-</p>
- <div>
-     @Html.Partial("_CreateComment", new Ilaser2.Models.Comment())
- </div>
-<div>
-    @Html.Partial("_CreateRating", new Ilaser2.Models.Rating())
-</div>
-<div>
-    @Html.Partial("_MakeOrder", new Ilaser2.Models.Order_Product())
-</div>
-<div>
-    @Html.Partial("_CreateProductPhotos", new Ilaser2.Models.Photo())
-</div>
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="row">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Create","Order_Product")" style="font-family:Verdana, Geneva, Tahoma, sans-serif;font-size:larger;"> Make an order</a>
+                                </li>
+                               
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Create","Comments")" style="font-family:Verdana, Geneva, Tahoma, sans-serif;font-size:larger;"> Leave a Comment </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Create","Ratings")" style="font-family:Verdana, Geneva, Tahoma, sans-serif;font-size:larger;">Leave a rating </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Details","Users")" style="font-family:Verdana, Geneva, Tahoma, sans-serif;font-size:larger;"> View The Owner Details </a>
+                                </li>
+                            </ul>
+                            <div class="Row" style="padding-left:15px;">
+                                @Html.Action("Comment", "Products")
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-lg-8">
+                        @Html.Action("photos", "Products")
+                    </div>
+
+
+                </div>
+
+                <hr />
+
+
+
+                    @*<a href="@Url.Action("Create","Order_Product")" class="btn btn-primary"> Place an Order </a>||
+                    <a href="@Url.Action("Create","Comments")" class="btn btn-primary"> Leave a comment </a>||
+                    <a href="@Url.Action("Create","Ratings")" class="btn btn-primary"> Leave a Rating </a>*@
+
+
+
+                @*</p>
+                <div>
+                    @Html.Action("photos", "Products")
+                </div>
+                <div>
+                    @Html.Action("rating", "Products")
+                </div>
+
+                <div>
+                    @Html.Action("Comment", "Products")
+                </div>*@
+                @*<div>
+                    @Html.Partial("_CreateComment", new Ilaser2.Models.Comment())
+                </div>
+                <div>
+                    @Html.Partial("_CreateRating", new Ilaser2.Models.Rating())
+                </div>
+                <div>
+                    @Html.Partial("_MakeOrder", new Ilaser2.Models.Order_Product())
+                </div>*@
+
+
+
+
+                @*<div>
+                    @Html.Partial("_PhotosByProduct", new Ilaser2.Models.Photo());
+                </div>*@
+            }
+         
+
+     
+       
+        </div>

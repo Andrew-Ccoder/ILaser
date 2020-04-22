@@ -3,96 +3,130 @@
 @{
     ViewBag.Title = "Create";
 }
+<div class="row">
 
 
-<h2>Create</h2>
+
+    <div class="col-lg-offset-1 col-lg-5" style="color:#040d41;background-color:#ffffff;padding:15px;">
+        <h2>Create</h2>
+
+        @using (Html.BeginForm("Create", "Ratings", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h4>Rating</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.User_Id, "User_Id", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10" id="range">
+                            @Html.HiddenFor(model=>model.Rate_Range,Html.Id("range"))
+                        </div>
+                    </div>*@
+                <form action="Create" method="post">
+                    <input type="hidden" id="range" name="range" />
+                </form>
 
 
-@using (Html.BeginForm("Create","Ratings",FormMethod.Post,new { }))
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        
-        <h4>Rating</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-       
-       <div id="range">
-           @Session["Range"]
-       </div>
 
-        <div id="con">
-            <span id="span1" area-hidden="true" class="fa fa-star" ></span>
-            <span id="span2" area-hidden="true" class="fa fa-star"></span>
-            <span id="span3" area-hidden="true" class="fa fa-star"></span>
-            <span id="span4" area-hidden="true" class="fa fa-star"></span>
-            <span id="span5" area-hidden="true" class="fa fa-star"></span>
 
-        </div>
 
-      
-        </div>
-       
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.User_Id, "User_Id", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("User_Id", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.User_Id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Product_Id, "Product_Id", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("Product_Id", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Product_Id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+
+
+                <div id="con">
+                    <span id="span1" area-hidden="true" class="fa fa-star"></span>
+                    <span id="span2" area-hidden="true" class="fa fa-star"></span>
+                    <span id="span3" area-hidden="true" class="fa fa-star"></span>
+                    <span id="span4" area-hidden="true" class="fa fa-star"></span>
+                    <span id="span5" area-hidden="true" class="fa fa-star"></span>
+
+                </div>
+                <div>
+                    <input type="hidden" id="range" />
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10" id="range">
+                        <input type="submit" value="Create" class="btn btn-default" id="range" />
+                    </div>
+                </div>
             </div>
+
+        }
         </div>
-  
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="~/scripts/bootstrap.min.js"></script>
-<script src="~/scripts/bootstrap.js"></script>
-<script src="~/scripts/jquery.validate.unobtrusive.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-@section scripts{
+    </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/scripts/bootstrap.min.js"></script>
+        <script src="~/scripts/bootstrap.js"></script>
+        <script src="~/scripts/jquery.validate.unobtrusive.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+        @section scripts{
 
 
-<script type="text/javascript">
-    var count = 0;
-            $(document).ready(function () {
-               
-                $("#span1").click(function () {
-                    $(".fa-star").css("color", "Black");
-                    $("#span1").css("color", "Gold");
-                    count = 1;
+            <script type="text/javascript">
+                var count = 0;
+
+                $(document).ready(function () {
+
+                    $("#span1").click(function () {
+                        $(".fa-star").css("color", "Black");
+                        $("#span1").css("color", "Gold");
+                        count = 1;
+                        document.getElementById("range").value = count;
+                    });
+                    $("#span2").click(function () {
+                        $(".fa-star").css("color", "Black");
+
+                        $("#span1,#span2").css("color", "Gold");
+                        count = 2;
+                        document.getElementById("range").value = count;
+                    });
+                    $("#span3").click(function () {
+                        $(".fa-star").css("color", "Black");
+
+                        $("#span1,#span2,#span3").css("color", "Gold");
+                        count = 3;
+                        document.getElementById("range").value = count;
+                    });
+                    $("#span4").click(function () {
+                        $(".fa-star").css("color", "Black");
+
+
+                        $("#span1,#span2,#span3,#span4").css("color", "Gold");
+                        count = 4;
+                        document.getElementById("range").value = count;
+                    });
+                    $("#span5").click(function () {
+                        $(".fa-star").css("color", "Black");
+
+
+                        $("#span1,#span2,#span3,#span4,#span5").css("color", "Gold");
+                        count = 5;
+                        document.getElementById("range").value = count;
+                    });
                 });
-                $("#span2").click(function () {
-                    $(".fa-star").css("color", "Black");
 
-                    $("#span1,#span2").css("color", "Gold");
-                    count = 2;
-                });
-                $("#span3").click(function () {
-                    $(".fa-star").css("color", "Black");
+            </script>
 
-                    $("#span1,#span2,#span3").css("color", "Gold");
-                    count = 3;
-                });
-                $("#span4").click(function () {
-                    $(".fa-star").css("color", "Black");
-
-
-                    $("#span1,#span2,#span3,#span4").css("color", "Gold");
-                    count = 4;
-                });
-                $("#span5").click(function () {
-                    $(".fa-star").css("color", "Black");
-
-
-                    $("#span1,#span2,#span3,#span4,#span5").css("color", "Gold");
-                    count = 5;
-                });
-            });
-            document.getElementById("range") = count;
-</script>
-    }
+        }

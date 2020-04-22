@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="ILaserModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CategoryName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="CategoryDiscription" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
   <EntityType Name="Comment">
     <Key>
       <PropertyRef Name="Comment_Id" />
@@ -38,6 +46,9 @@
     <Property Name="QTY" Type="int" Nullable="false" />
     <Property Name="Price" Type="nvarchar(max)" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="ProductMainPicture" Type="nvarchar(max)" />
+    <Property Name="Cat_Id" Type="int" />
   </EntityType>
   <EntityType Name="Rating">
     <Key>
@@ -47,6 +58,7 @@
     <Property Name="Rate_Range" Type="int" Nullable="false" />
     <Property Name="User_Id" Type="int" Nullable="false" />
     <Property Name="Product_Id" Type="int" Nullable="false" />
+    <Property Name="Rating_Avg" Type="int" />
   </EntityType>
   <EntityType Name="User">
     <Key>
@@ -60,6 +72,7 @@
     <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
     <Property Name="TypeId" Type="int" Nullable="false" />
+    <Property Name="UserPhoto" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="User_Photo">
     <Key>
@@ -137,6 +150,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Product_CategoryId">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="Cat_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Product_UserId">
     <End Role="User" Type="Self.User" Multiplicity="1" />
     <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -198,6 +223,7 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="ILaserModelStoreContainer">
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Order_Product" EntityType="Self.Order_Product" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Photo" EntityType="Self.Photo" Schema="dbo" store:Type="Tables" />
@@ -225,6 +251,10 @@
     <AssociationSet Name="FK_Photo_ProductId" Association="Self.FK_Photo_ProductId">
       <End Role="Product" EntitySet="Product" />
       <End Role="Photo" EntitySet="Photo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_CategoryId" Association="Self.FK_Product_CategoryId">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Product" EntitySet="Product" />
     </AssociationSet>
     <AssociationSet Name="FK_Product_UserId" Association="Self.FK_Product_UserId">
       <End Role="User" EntitySet="User" />

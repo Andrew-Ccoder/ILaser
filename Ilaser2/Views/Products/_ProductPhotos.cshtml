@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Ilaser2.Models.ProductPhotosViewModel>
+@{
+    ViewBag.Title = "Getphotosbyproduct";
+}
+
+<h2>Getphotosbyproduct</h2>
+
+@foreach (var gr in Model)
+{
+    <h3>@gr.Productphoto  </h3>
+    <table class="table table-bordered table-hover">
+        <tr>
+
+            <th>
+                The Photos
+            </th>
+
+        </tr>
+        @foreach (var item in gr.Items)
+        {
+            <tr>
+
+                <th>
+                    <img src="~/Uploads/@Html.DisplayFor(model => item.Photo_URL)" class="thumbnail" style="width:150px;height:150px;" />
+
+                </th>
+
+            </tr>
+        }
+    </table>
+}
+

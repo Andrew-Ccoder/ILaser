@@ -22,6 +22,13 @@ namespace Ilaser2.Controllers
             return View(photos.ToList());
         }
 
+        public ActionResult PhotosByProduct()
+        {
+            var productphoto = Convert.ToInt32(Session["ProductId"]);
+            var photos = db.Photos.Where(p => p.Product_Id==productphoto);
+            return View(photos.ToList());
+        }
+
         // GET: Photos/Details/5
         public ActionResult Details(int? id)
         {
@@ -51,15 +58,24 @@ namespace Ilaser2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Photo photo, HttpPostedFileBase upload)
         {
-            if (ModelState.IsValid)
+            try
             {
-                photo.Product_Id = Convert.ToInt32(Session["ProductId"]);
-                string path = Path.Combine(Server.MapPath("~/Uploads"), upload.FileName);
-                upload.SaveAs(path);
-                photo.Photo_URL = upload.FileName; 
-                db.Photos.Add(photo);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+
+                    photo.Product_Id = Convert.ToInt32(Session["ProductId"]);
+                    string path = Path.Combine(Server.MapPath("~/Uploads"), upload.FileName);
+
+                    upload.SaveAs(path);
+                    photo.Photo_URL = upload.FileName;
+                    db.Photos.Add(photo);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Products");
+                }
+            }
+           catch
+            {
+                return RedirectToAction("Index", "Products");
             }
 
            // ViewBag.Product_Id = new SelectList(db.Products, "Product_Id", "Name", photo.Product_Id);
@@ -69,6 +85,8 @@ namespace Ilaser2.Controllers
         // GET: Photos/Edit/5
         public ActionResult Edit(int? id)
         {
+            
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -102,6 +120,7 @@ namespace Ilaser2.Controllers
         // GET: Photos/Delete/5
         public ActionResult Delete(int? id)
         {
+            id = Convert.ToInt32(Session["PhotoId"]);
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -117,12 +136,15 @@ namespace Ilaser2.Controllers
         // POST: Photos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(Photo photo)
         {
-            Photo photo = db.Photos.Find(id);
-            db.Photos.Remove(photo);
+           
+            photo.Photo_Id = Convert.ToInt32(Session["PhotoId"]);
+            photo.Photo_URL = (Session["photoURL"]).ToString();
+            photo.Product_Id= Convert.ToInt32(Session["ProductPhoto"]);
+            db.Entry(photo).State = EntityState.Deleted;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Products");
         }
 
         protected override void Dispose(bool disposing)

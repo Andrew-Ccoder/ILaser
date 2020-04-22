@@ -1,0 +1,57 @@
+﻿@model System.Collections.Generic.IList<Ilaser2.Models.ProductCommentesViewModel>
+
+@{
+    ViewBag.Title = "GetCommentsByProduct";
+}
+
+
+@foreach (var gr in Model)
+{
+
+   
+     
+                    foreach (var item in gr.Items)
+                    {
+
+                        <hr style="width:250px;color:##ff0000; direction:ltr" />
+                        <h3 style="font-family:Verdana, Geneva, Tahoma, sans-serif;font-size:larger;"> @item.User.User_FirstName @item.User.User_LastName </h3>
+                        <h4>@item.Description </h4>
+                        <h6> From @item.User.Address ~ @item.Time </h6>
+
+                        if ((Session["ad_id"]).ToString() == (item.User_Id).ToString() && ((Session["ad_id"]).ToString() != (item.Product.UserId).ToString()))
+                    {
+
+                            <a href="@Url.Action("Edit", "Comments")" class="btn btn-primary">Edit</a>
+
+
+
+                            <a href="@Url.Action("Delete","Comments")" class="btn btn-danger ">Delete</a>
+                            Session["CommentId"] = item.Comment_Id;
+                            Session["CommentDesc"] = item.Description;
+                            Session["CommentedProduct"] = item.Prouduct_Id;
+                            Session["CommentTime"] = item.Time;
+                            Session["CommentedUser"] = item.User_Id;
+
+                        }
+                        else if (((Session["ad_id"]).ToString() == (item.Product.UserId).ToString()))
+                        {
+
+
+                            <a href="@Url.Action("Delete","Comments")" class="btn btn-primary" data-toggle="tooltip" title="Delete!">Delete</a>
+                            Session["CommentId"] = item.Comment_Id;
+                            Session["CommentDesc"] = item.Description;
+                            Session["CommentedProduct"] = item.Prouduct_Id;
+                            Session["CommentTime"] = item.Time;
+                            Session["CommentedUser"] = item.User_Id;
+                        }
+
+
+                    }
+           
+
+}
+
+
+
+
+

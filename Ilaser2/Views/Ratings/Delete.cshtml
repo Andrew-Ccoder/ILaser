@@ -3,46 +3,58 @@
 @{
     ViewBag.Title = "Delete";
 }
+<div class="row">
+    <div class="col-lg-offset-1 col-lg-5" style="color:gold;background-color:#070651;padding:15px;">
 
-<h2>Delete</h2>
+        <h2>Delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Rating</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Rate_Range)
-        </dt>
+        <h3>Are you sure you want to delete Your Rating?</h3>
+        <div>
+            
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                   Your Rating
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Rate_Range)
-        </dd>
+                <dd>
+                    @for (int i = 0; i < Model.Rate_Range; i++)
+                    {
+                        <span class="glyphicon glyphicon-star style=" style="color:gold"></span>
+                    }
+                    @for (int i = Model.Rate_Range; i < 5; i++)
+                    {
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Product.Name)
-        </dt>
+                        <span class="glyphicon glyphicon-star-empty"></span>
+                    }
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Product.Name)
-        </dd>
+                <dt>
+                   For Product
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.User.User_FirstName)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Product.Name)
+                </dd>
+                <dt>
+                    For Product
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.User.User_FirstName)
-        </dd>
+                <dd>
+                    <img src="~/Uploads/@Html.DisplayFor(model =>model.Product.ProductMainPicture )" class="thumbnail" style="width:150px;height:150px;" />
 
-    </dl>
+                </dd>
+                </dl>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-danger" /> |
+
+                </div>
+            }
         </div>
-    }
+        </div>
 </div>

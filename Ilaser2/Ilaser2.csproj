@@ -151,7 +151,16 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\fancybox\blank.gif" />
+    <Content Include="Content\fancybox\fancybox_buttons.png" />
+    <Content Include="Content\fancybox\fancybox_loading%402x.gif" />
+    <Content Include="Content\fancybox\fancybox_loading.gif" />
+    <Content Include="Content\fancybox\fancybox_overlay.png" />
+    <Content Include="Content\fancybox\fancybox_sprite%402x.png" />
+    <Content Include="Content\fancybox\fancybox_sprite.png" />
+    <Content Include="Content\jquery.fancybox-buttons.css" />
+    <Content Include="Content\jquery.fancybox-thumbs.css" />
+    <Content Include="Content\jquery.fancybox.css" />
     <Content Include="Content\Style.css" />
     <Content Include="Global.asax" />
     <Content Include="Models\Ilaser2.Context.tt">
@@ -176,16 +185,41 @@
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
     <None Include="scripts\jquery.validate-vsdoc.js" />
+    <Content Include="scripts\jquery.fancybox-buttons.js" />
+    <Content Include="scripts\jquery.fancybox-media.js" />
+    <Content Include="scripts\jquery.fancybox-thumbs.js" />
+    <Content Include="scripts\jquery.fancybox.js" />
+    <Content Include="scripts\jquery.fancybox.pack.js" />
+    <Content Include="scripts\jquery.mousewheel-3.0.6.pack.js" />
     <Content Include="scripts\jquery.validate.js" />
     <Content Include="scripts\jquery.validate.min.js" />
     <Content Include="scripts\jquery.validate.unobtrusive.js" />
     <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="Slides\A.jpeg" />
+    <Content Include="Slides\B.jpeg" />
+    <Content Include="Slides\C.jpeg" />
+    <Content Include="Slides\D.jpeg" />
+    <Content Include="Slides\E.jpeg" />
+    <Content Include="Slides\F.jpeg" />
+    <Content Include="Slides\G.jpeg" />
+    <Content Include="Slides\H.jpeg" />
+    <Content Include="Slides\I.jpeg" />
+    <Content Include="Slides\J.jpeg" />
+    <Content Include="Slides\K.jpeg" />
+    <Content Include="Slides\L.jpeg" />
+    <Content Include="Slides\M.jpeg" />
+    <Content Include="Uploads\Backgrounds.jpg" />
+    <Content Include="Uploads\HomeBG.jpg" />
+    <Content Include="Uploads\ProductsBG.jpg" />
+    <Content Include="Uploads\background.jpg" />
     <Content Include="Uploads\logo.jpg" />
+    <Content Include="Uploads\register.jpg" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\Order_ProductController.cs" />
     <Compile Include="Controllers\PhotosController.cs" />
@@ -196,6 +230,9 @@
     <Compile Include="Controllers\User_TypeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Category.cs">
+      <DependentUpon>Ilaser2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Comment.cs">
       <DependentUpon>Ilaser2.tt</DependentUpon>
@@ -226,6 +263,9 @@
     <Compile Include="Models\Product.cs">
       <DependentUpon>Ilaser2.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProductCommentesViewModel.cs" />
+    <Compile Include="Models\ProductPhotosViewModel.cs" />
+    <Compile Include="Models\ProductRatesViewModel.cs" />
     <Compile Include="Models\RatedProductsViewModel.cs" />
     <Compile Include="Models\Rating.cs">
       <DependentUpon>Ilaser2.tt</DependentUpon>
@@ -305,6 +345,26 @@
     <Content Include="Views\Products\_CreateRating.cshtml" />
     <Content Include="Views\Products\_MakeOrder.cshtml" />
     <Content Include="Views\Products\_CreateProductPhotos.cshtml" />
+    <Content Include="Views\Photos\_PhotosByProduct.cshtml" />
+    <Content Include="Views\Products\_PhotosByProduct.cshtml" />
+    <Content Include="Views\Photos\PhotosByProduct.cshtml" />
+    <Content Include="Views\Products\Getphotosbyproduct.cshtml" />
+    <Content Include="Views\Products\_ProductPhotos.cshtml" />
+    <Content Include="Views\Products\GetCommentsByProduct.cshtml" />
+    <Content Include="Views\Products\GetRatingsByProduct.cshtml" />
+    <Content Include="Views\Products\_ProductRatings.cshtml" />
+    <Content Include="Views\Products\Opinions.cshtml" />
+    <Content Include="Views\Users\EditProfile.cshtml" />
+    <Content Include="Views\Products\GetDeletedProducts.cshtml" />
+    <Content Include="Views\Products\Restore.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Products\IndexTrail.cshtml" />
+    <Content Include="Views\Categories\Create.cshtml" />
+    <Content Include="Views\Categories\Delete.cshtml" />
+    <Content Include="Views\Categories\Details.cshtml" />
+    <Content Include="Views\Categories\Edit.cshtml" />
+    <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\Products\Search.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

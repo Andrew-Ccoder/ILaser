@@ -61,7 +61,7 @@ namespace Ilaser2.Controllers
                 comment.Time = DateTime.Now;
                 db.Comments.Add(comment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Products");
             }
 
             //ViewBag.Prouduct_Id = new SelectList(db.Products, "Product_Id", "Name", comment.Prouduct_Id);
@@ -72,6 +72,7 @@ namespace Ilaser2.Controllers
         // GET: Comments/Edit/5
         public ActionResult Edit(int? id)
         {
+            id = Convert.ToInt32(Session["CommentId"]);
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -95,12 +96,13 @@ namespace Ilaser2.Controllers
         {
             if (ModelState.IsValid)
             {
-                comment.User_Id = Convert.ToInt32(Session["ad_id"]);
-                comment.Prouduct_Id = Convert.ToInt32(Session["commentedproduct"]);
+                comment.Comment_Id = Convert.ToInt32(Session["CommentId"]);
+                comment.User_Id = Convert.ToInt32(Session["CommentedUser"]);
+                comment.Prouduct_Id = Convert.ToInt32(Session["CommentedProduct"]);
                 comment.Time = DateTime.Now;
                 db.Entry(comment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Products");
             }
             //ViewBag.Prouduct_Id = new SelectList(db.Products, "Product_Id", "Name", comment.Prouduct_Id);
             //ViewBag.User_Id = new SelectList(db.Users, "User_Id", "User_FirstName", comment.User_Id);
@@ -110,6 +112,8 @@ namespace Ilaser2.Controllers
         // GET: Comments/Delete/5
         public ActionResult Delete(int? id)
         {
+            id = Convert.ToInt32(Session["CommentId"]);
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -125,12 +129,17 @@ namespace Ilaser2.Controllers
         // POST: Comments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(Comment comment)
         {
-            Comment comment = db.Comments.Find(id);
-            db.Comments.Remove(comment);
+            
+            comment.Comment_Id = Convert.ToInt32(Session["CommentId"]);
+            comment.User_Id = Convert.ToInt32(Session["CommentedUser"]);
+            comment.Prouduct_Id = Convert.ToInt32(Session["CommentedProduct"]);
+            comment.Time = DateTime.Now;
+            comment.Description = Session["CommentDesc"].ToString();
+            db.Entry(comment).State = EntityState.Deleted;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Products");
         }
 
         protected override void Dispose(bool disposing)

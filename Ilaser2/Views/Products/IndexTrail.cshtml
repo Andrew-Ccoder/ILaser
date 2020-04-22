@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Ilaser2.Models.Product>
+
+@{
+    ViewBag.Title = "IndexTrail";
+}
+
+<h2>IndexTrail</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+@foreach (var item in Model) {
+    
+       
+            @Html.DisplayFor(modelItem => item.Name)
+      
+     
+            @Html.DisplayFor(modelItem => item.Description)
+   
+     
+            @Html.DisplayFor(modelItem => item.QTY)
+     
+            @Html.DisplayFor(modelItem => item.Price)
+      
+            @Html.DisplayFor(modelItem => item.IsDeleted)
+        
+            @Html.DisplayFor(modelItem => item.ProductMainPicture)
+      
+            @Html.DisplayFor(modelItem => item.User.User_FirstName)
+       
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Product_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Product_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Product_Id })
+        </td>
+   
+}
+
+

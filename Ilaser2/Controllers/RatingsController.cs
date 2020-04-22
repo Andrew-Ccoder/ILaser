@@ -51,14 +51,19 @@ namespace Ilaser2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Rating rating)
         {
+            
             if (ModelState.IsValid)
             {
                 rating.User_Id = Convert.ToInt32(Session["ad_id"]);
                 rating.Product_Id = Convert.ToInt32(Session["ProductId"]);
-                rating.Rate_Range = Convert.ToInt32(Session["Range"]);
+                rating.Rate_Range = Convert.ToInt32(Request.Form["range"]);
+                //rating.Rating_Avg = Convert.ToInt32((from rate in db.Ratings
+                //                                     where rate.Product_Id== rating.Product_Id
+                //                                     select rate.Rate_Range).Average();
                 db.Ratings.Add(rating);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                Session["RatesAvg"] = rating.Rating_Avg;
+                return RedirectToAction("Index","Products");
             }
 
             //ViewBag.Product_Id = new SelectList(db.Products, "Product_Id", "Name", rating.Product_Id);
@@ -104,11 +109,13 @@ namespace Ilaser2.Controllers
         // GET: Ratings/Delete/5
         public ActionResult Delete(int? id)
         {
+            id = Convert.ToInt32(Session["RatingId"]);
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Rating rating = db.Ratings.Find(id);
+            id = Convert.ToInt32(Session["RatingId"]);
             if (rating == null)
             {
                 return HttpNotFound();
@@ -119,12 +126,15 @@ namespace Ilaser2.Controllers
         // POST: Ratings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(Rating rating)
         {
-            Rating rating = db.Ratings.Find(id);
-            db.Ratings.Remove(rating);
+            rating.Rate_Id= Convert.ToInt32(Session["RatingId"]);
+            rating.Rate_Range= Convert.ToInt32(Request.Form["range"]);
+            rating.Product_Id = Convert.ToInt32(Session["ProductId"]);
+            rating.User_Id = Convert.ToInt32(Session["ad_Id"]);
+            db.Entry(rating).State = EntityState.Deleted;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Products");
         }
 
         protected override void Dispose(bool disposing)

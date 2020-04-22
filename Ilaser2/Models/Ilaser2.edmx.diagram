@@ -23,6 +23,8 @@
         <AssociationConnector Association="ILaserModel.FK_Comment_UserId" />
         <EntityTypeShape EntityType="ILaserModel.User_Photo" Width="1.5" PointX="5" PointY="6.375" />
         <AssociationConnector Association="ILaserModel.FK_User_Photo_User_PhotoId" />
+        <EntityTypeShape EntityType="ILaserModel.Category" Width="1.5" PointX="0.75" PointY="0.875" />
+        <AssociationConnector Association="ILaserModel.FK_Product_CategoryId" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

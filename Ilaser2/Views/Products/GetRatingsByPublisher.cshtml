@@ -36,12 +36,13 @@
                 <th>
                     @for (int i = 0; i < item.Rate_Range; i++)
                     {
-                        <span class="glyphicon glyphicon-star" style="color:gold"></span>
+                        <span class="glyphicon glyphicon-star style=" style="color:gold"></span>
                     }
-                   @for (int i = item.Rate_Range; i < 5; i++)
+                    @for (int i = item.Rate_Range; i < 5; i++)
                     {
-                        <span class="glyphicon glyphicon-star-empty"></span>
+                        <span class="glyphicon glyphicon-star" style="color:black"></span>
                     }
+
                 </th>
                 <th>
                     @item.User.User_FirstName

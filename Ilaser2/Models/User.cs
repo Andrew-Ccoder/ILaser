@@ -11,7 +11,8 @@ namespace Ilaser2.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -28,10 +29,18 @@ namespace Ilaser2.Models
         public string User_FirstName { get; set; }
         public string User_LastName { get; set; }
         public string Email { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
+        [Required]
+        
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
         public int TypeId { get; set; }
+        public string UserPhoto { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order_Product> Order_Product { get; set; }
